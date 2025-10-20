@@ -1,1 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Max's Matchmaker</title>
+</head>
+<body>
+  <h1>Matchmaker: See if you're mine!❤️</h1>
+  <p>The task is simple, answer these questions to see if we're compatible!</p>
 
+<!--These are where you make your statements for your potential partner. You can put whatever you want as long as it's a statement-->
+
+  <label>Green Day is God's Favorite Band.</label> <br />
+  <select id="q1">
+    <option value="">--Select an option--</option>
+    <option value="5">Strongly Agree</option>
+    <option value="4">Agree</option>
+    <option value="3">Neutral</option>
+    <option value="2">Disagree</option>
+    <option value="1">Strongly Disagree</option>
+  </select>
+<br /><br />
+
+  <label>Call of Duty sucks</label> <br />
+  <select id="q2">
+    <option value="">--Select an option--</option>
+    <option value="5">Strongly Agree</option>
+    <option value="4">Agree</option>
+    <option value="3">Neutral</option>
+    <option value="2">Disagree</option>
+    <option value="1">Strongly Disagree</option>
+  </select>
+<br /><br />
+
+  <label>Cars are cool</label> <br />
+  <select id="q3">
+    <option value="">--Select an option--</option>
+    <option value="5">Strongly Agree</option>
+    <option value="4">Agree</option>
+    <option value="3">Neutral</option>
+    <option value="2">Disagree</option>
+    <option value="1">Strongly Disagree</option>
+  </select>
+<br /><br />
+
+  <label>Schnauzers are funny looking</label> <br />
+  <select id="q4">
+    <option value="">--Select an option--</option>
+    <option value="5">Strongly Agree</option>
+    <option value="4">Agree</option>
+    <option value="3">Neutral</option>
+    <option value="2">Disagree</option>
+    <option value="1">Strongly Disagree</option>
+  </select>
+<br /><br />
+
+  <label>Fiat-Chrystler is the best car company ever</label> <br />
+  <select id="q5">
+    <option value="">--Select an option--</option>
+    <option value="5">Strongly Agree</option>
+    <option value="4">Agree</option>
+    <option value="3">Neutral</option>
+    <option value="2">Disagree</option>
+    <option value="1">Strongly Disagree</option>
+  </select>
+
+<!--This is where the magic happens. You have a button that lets the javascript run its operations to find out the compatibility of your user.-->
+
+<br /><br /><br />
+<button onclick="calculateCompatibility()">Find out if you're mine!</button>
+<p id="compatibility"></p>
+
+
+<Script>
+console.log("Starting Javascript");
+
+//This is to make sure that your potential partner HAS to pick an answer to get a proper calculation//
+
+function validate() {
+  console.log("validate()");
+  let isValid = true;
+  let errorMessages = "";
+
+  for (let i = 1; i <= 5; i++) {
+    let value = document.getElementById("q" + i).value;
+    if (value === "") {
+      errorMessages += `⚠️ Please answer Question ${i}.\n`;
+      isValid = false;
+    }
+  }
+
+  if (!isValid) {
+    alert(errorMessages);
+  }
+
+  return isValid; 
+}
+
+function calculateCompatibility() {
+    console.log("calculateCompatibility()");
+
+    if (!validate()) {
+      return; 
+    }
+
+    //My preferred answers for each statement, These can be changed to your liking depending on what's being made to answer by you//
+
+    const DESIRED_RESPONSE = [
+        5, 
+        5, 
+        5, 
+        1, 
+        1,
+    ];
+
+    const MAX_SCORE=25;
+
+    let question1Response = document.getElementById("q1").selectedOptions[0].value;
+    let question2Response = document.getElementById("q2").selectedOptions[0].value;
+    let question3Response = document.getElementById("q3").selectedOptions[0].value;
+    let question4Response = document.getElementById("q4").selectedOptions[0].value;
+    let question5Response = document.getElementById("q5").selectedOptions[0].value;
+
+
+    console.log("Question 1 Answers.")
+    console.log(document.getElementById("q1").selectedOptions[0].text);
+    console.log(document.getElementById("q1").selectedOptions[0].value);
+    console.log(question1Response);
+
+        console.log("Question 2 Answers.")
+    console.log(document.getElementById("q2").selectedOptions[0].text);
+    console.log(document.getElementById("q2").selectedOptions[0].value);
+    console.log(question2Response);
+
+        console.log("Question 3 Answers.")
+    console.log(document.getElementById("q3").selectedOptions[0].text);
+    console.log(document.getElementById("q3").selectedOptions[0].value);
+    console.log(question3Response);
+
+        console.log("Question 4 Answers.")
+    console.log(document.getElementById("q4").selectedOptions[0].text);
+    console.log(document.getElementById("q4").selectedOptions[0].value);
+    console.log(question4Response);
+
+        console.log("Question 5 Answers.");
+    console.log(document.getElementById("q5").selectedOptions[0].text);
+    console.log(document.getElementById("q5").selectedOptions[0].value);
+    console.log(question5Response);
+
+    let question1Compatibility = 5 - Math.abs(question1Response - DESIRED_RESPONSE [0]);
+    let question2Compatibility = 5 - Math.abs(question2Response - DESIRED_RESPONSE [1]);
+    let question3Compatibility = 5 - Math.abs(question3Response - DESIRED_RESPONSE [2]);
+    let question4Compatibility = 5 - Math.abs(question4Response - DESIRED_RESPONSE [3]);
+    let question5Compatibility = 5 - Math.abs(question5Response - DESIRED_RESPONSE [4]);
+
+    console.log("c1="+question1Compatibility);
+    console.log("c2="+question2Compatibility);
+    console.log("c3="+question3Compatibility);
+    console.log("c4="+question4Compatibility);
+    console.log("c5="+question5Compatibility);
+
+    let totalCompatibility = question1Compatibility + question2Compatibility + question3Compatibility + question4Compatibility + question5Compatibility;
+
+    totalCompatibility *= 100/MAX_SCORE;
+    totalCompatibility = Math.round(totalCompatibility);
+    console.log("tc"+totalCompatibility);
+
+    //Below, these are the ranges of percentage in which different messages appear. These too can be customized depending on your standards.//
+
+    let message = "";
+  if (totalCompatibility >= 90) {
+    message = "We should get married, NOW!";
+  } else if (totalCompatibility >= 80) {
+    message = "We should definitely go out sometime :)";
+  } else if (totalCompatibility >= 60) {
+    message = "You seem quite cool, lets talk!";
+  } else if (totalCompatibility >= 40) {
+    message = "Ooo.. maybe we should just be friends..";
+  } else {
+    message = "get out of my sight.";
+  }
+
+    document.getElementById("compatibility").innerHTML = "Your Compatibility is: " + totalCompatibility + "%<br>" + message;
+}
+
+</Script>
+
+</body>
+</html>
